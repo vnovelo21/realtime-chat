@@ -24,7 +24,6 @@ const UserInputContainer = (props) => {
       <input type="text" value={message} onChange={onInputChange} id="user-input" placeholder="Enter Message To Send" />
       <button className='btn btn-outline-primary'id="user-input-send-button" onClick={sendMessage}>Send</button>
     </div>
-
   );
 }
 
