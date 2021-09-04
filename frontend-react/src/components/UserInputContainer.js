@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { addMessage } from '../utils/api';
 
 const UserInputContainer = (props) => {
@@ -18,7 +18,7 @@ const UserInputContainer = (props) => {
     console.log(`Sent message ${message}`)
     setMessage('');
   }
-
+  
   return (
     <div className="user-input-container">
       <input type="text" value={message} onChange={onInputChange} id="user-input" placeholder="Enter Message To Send" />

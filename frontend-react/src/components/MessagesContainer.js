@@ -1,26 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component } from 'react';
 import { getMessages } from '../utils/api';
 
-const MessagesContainer = (props) => {
+class MessagesContainer extends Component {
   
-  const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    props.socket.on('chat-message', message => {
-      setMessages(oldMessages => [...oldMessages, message]);
-    })
-  });
+  state = {
+    messages: []
+  }
 
-  return (
-    <div className="messages-container">
-      {messages.map((messageText, index) => {
-        <div key={index} className='message-text'>
-          {messageText}
-        </div>
-      })}
-    </div>
+  componentDidMount(){
+    
+    getMessages().then((response) => {
+      console.log(response);
+    });
+  }
+  
+  // useEffect(() => {
+  //   props.socket.on('chat-message', message => {
+  //     setMessages(oldMessages => [...oldMessages, message]);
+  //   })
+  // });
 
-  );
+  render(){
+    return (
+      <div className="messages-container">
+        {this.state.messages.map((messageText, index) => {
+          <div key={index} className='message-text'>
+            {messageText}
+          </div>
+        })}
+      </div>
+    );
+  }
 }
 
 export default MessagesContainer;

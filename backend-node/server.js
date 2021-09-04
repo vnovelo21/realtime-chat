@@ -1,13 +1,17 @@
 const express = require('express');
+const cors = require('cors');
 
 // Models and Routes
 const db = require('./models');
 const userRoutes = require('./api/user');
+const messageRoutes = require('./api/message');
+
 
 // Initiate the Express Server
 const app = express();
 
 app.use(require('body-parser').json());
+app.use(cors());
 
 // Enable CORS
 app.use(function(req, res, next) {
@@ -22,6 +26,7 @@ app.get('/', (req, res, next) => res.status(200).send('API Hello'));
 
 // Define the subroutes
 app.use('/api/user', userRoutes);
+app.use('/api/message', messageRoutes);
 
 // Seed the database
 db.seed();
@@ -47,7 +52,7 @@ io.on('connection', (client) => {
   });
 
   client.on('send-chat-message', message => {
-    socket.broadcast.emit('chat-message', { message: message })
+    client.broadcast.emit('chat-message', { message: message })
   })
 });
 
