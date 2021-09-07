@@ -1,7 +1,7 @@
 const conn = require('./db');
 
 const Message = conn.define('message', {
-    messagetext: {
+    messageText: {
         type: conn.Sequelize.STRING,
         allowNull: false,
         validate: {

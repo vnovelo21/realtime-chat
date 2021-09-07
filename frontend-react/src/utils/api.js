@@ -31,7 +31,7 @@ export function getMessagesbyId(id) {
 export function addMessage(message, userId) {
   return fetch(`${URL}/message/${userId}`, {
     method: 'POST',
-    body: JSON.stringify({message: message}),
+    body: JSON.stringify({userId: userId, message: message}),
     headers
   })
     .then(res => (res.json()));

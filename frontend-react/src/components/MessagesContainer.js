@@ -1,37 +1,41 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getMessages } from '../utils/api';
+import Message from './Message';
+const MessagesContainer = (props) => {
 
-class MessagesContainer extends Component {
-  
+  const [messages, setMessages] = useState([]);
 
-  state = {
-    messages: []
-  }
-
-  componentDidMount(){
-    
-    getMessages().then((response) => {
-      console.log(response);
+  useEffect(() => {
+    getMessages()
+    .then((response) => {
+      setMessages(response.data)
     });
-  }
-  
-  // useEffect(() => {
-  //   props.socket.on('chat-message', message => {
-  //     setMessages(oldMessages => [...oldMessages, message]);
-  //   })
-  // });
+  }, []);
 
-  render(){
-    return (
-      <div className="messages-container">
-        {this.state.messages.map((messageText, index) => {
-          <div key={index} className='message-text'>
-            {messageText}
-          </div>
-        })}
-      </div>
-    );
-  }
+  useEffect(() => {
+    props.socket.on('connnection', () => {
+      console.log('connected to server');
+    })
+
+    props.socket.on('message-added', (newMessages) => {
+      console.log('message-added');
+      console.log(newMessages);
+      setMessages(newMessages)
+    })
+
+    props.socket.on('disconnect', () => {
+      console.log('Socket disconnecting');
+    })
+
+  }, []);
+
+  return (
+    <div className="d-flex flex-column ">
+       {messages && messages.map((message, index) => {
+        return <Message key={index} className='p-2' messageText={message.messageText}></Message>;
+      })}
+    </div>
+  );
 }
 
 export default MessagesContainer;

@@ -26,7 +26,7 @@ class App extends Component {
     return (
       (this.state.user === undefined) ? 
       <Login setUserId={this.setUserId}/> : 
-      <div>
+      <div id='app'>
         <MessagesContainer socket={socket}></MessagesContainer>
         <UserInputContainer socket={socket} user={this.state.user}></UserInputContainer>
       </div>

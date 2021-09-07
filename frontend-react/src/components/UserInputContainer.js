@@ -8,14 +8,11 @@ const UserInputContainer = (props) => {
   const onInputChange = (event) => {
       event.preventDefault();
       setMessage(event.target.value);
-      console.log(message);
   }
 
   const sendMessage = () => {
     props.socket.emit('send-chat-message', message);
-    console.log(props.user);
     addMessage(message, props.user);
-    console.log(`Sent message ${message}`)
     setMessage('');
   }
   

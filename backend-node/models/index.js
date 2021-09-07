@@ -20,7 +20,7 @@ const seed = () => {
     })
     .then((users) => {
       // Messages
-      for (let i = 0; i < 5; i++)Message.create({ userId: 1, messagetext: faker.lorem.sentence(3,40)});
+      for (let i = 0; i < 5; i++)Message.create({ userId: 1, messageText: faker.lorem.sentence(3,40)});
     })
 }
 

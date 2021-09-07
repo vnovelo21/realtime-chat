@@ -1,8 +1,8 @@
 const app = require('express').Router();
 const models = require('../models').models;
 
-
-app.get('/', function (req, res) {
+// G\et all messages
+app.get('/', (req, res) => {
    // Find all the messages
    models.Message.findAll()
    .then(messages =>{
@@ -11,26 +11,30 @@ app.get('/', function (req, res) {
    .catch(err => { res.status(403).send(err) });
 })
 
+// Get messages based off user id
+// app.get('/', (req, res) => {
+//   // Find all the messages
+//   models.Message.findAll()
+//   .then(messages =>{
+//    return messages;
+//   })
+//   .catch(err => { res.status(403).send(err) });
+// })
+
 // Message Routes
-app.post('/:user', (req, res) => {
-  console.log('here')
-  models.Message
-  .create({ messageText: req.body.message})
-  .then(() =>{
-    console.log("message created")
-    res.send("POST OK"); 
+app.post('/:user', async (req, res) => {
+  console.log('about to post');
+  models.Message.create({ userId: req.body.userId, messageText: req.body.message})
+  .then(() => { 
+    console.log('in promise');
+    models.Message.findAll()
+    .then((messages) => {
+      let io = req.app.get('socketio');
+
+      io.emit('message-added', messages);
+      res.status(201).send(messages);
+    })
   })
-  .catch(function(error) {
-    res.send(error);
-  })
-  // // Find the messages
-  // models.Message.findAll({
-  // })
-  //   .then(message => {
-  //     models.Message.create({ messagetext: req.body.message })
-  //     return message;
-  //   })
-  //   .catch(err => { res.status(403).send(err) });
 });
 
 module.exports = app;

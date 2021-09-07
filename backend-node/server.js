@@ -21,16 +21,6 @@ app.use(function(req, res, next) {
 });
 
 
-// Define the basic route
-app.get('/', (req, res, next) => res.status(200).send('API Hello'));
-
-// Define the subroutes
-app.use('/api/user', userRoutes);
-app.use('/api/message', messageRoutes);
-
-// Seed the database
-db.seed();
-
 // Create a HTTP Server
 var http = require('http').Server(app);
 
@@ -45,19 +35,34 @@ var io = require('socket.io')(http, {
 
 // Event handling
 io.on('connection', (client) => {
+  console.log(`${client.id} connected`);
   client.on('subscribeToTx', (interval) => {
     setInterval(() => {
       client.emit('tx', new Date());
     }, interval);
   });
 
-  client.on('send-chat-message', message => {
-    client.broadcast.emit('chat-message', { message: message })
+  client.on('message-added', (messages) => {
+    console.log(messages);
+  })
+
+  client.on('disconnect', () => {
+    console.log(`socket ${client.id} disconnected`);
   })
 });
 
+// Define the basic route
+app.get('/', (req, res, next) => res.status(200).send('API Hello'));
+
+// Define the subroutes
+app.use('/api/user', userRoutes);
+app.use('/api/message', messageRoutes);
+
+// Seed the database
+db.seed();
+
 // Attach io to the app
-app.io = io;
+app.set('socketio', io);
 
 // Start Listening
 const port = process.env.PORT || 8000;
