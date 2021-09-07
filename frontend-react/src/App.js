@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 import Login from './components/login';
 import UserInputContainer from './components/UserInputContainer';
 import MessagesContainer from './components/MessagesContainer';
-import './index.css';
+import user from './reducers/user';
 
 const socket = io('http://localhost:18000', {
   withCredentials: true
@@ -29,7 +29,7 @@ class App extends Component {
       (this.state.user === undefined) ? 
       <Login setUserId={this.setUserId}/> : 
       <div id='app'>
-        <MessagesContainer socket={socket}></MessagesContainer>
+        <MessagesContainer socket={socket} user={this.state.user}></MessagesContainer>
         <UserInputContainer socket={socket} user={this.state.user}></UserInputContainer>
       </div>
     );
