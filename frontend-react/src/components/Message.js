@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const Message= (props) => {
 
-
-    useEffect(() => {
-        console.log('Message rendered');
-      }, []);
   return (
-    <div className="message-container-text">
-        {props.messageText}
+    <div className="message-container">
+        <div className="message-container-user">
+            {props.userId}
+        </div>
+        <div className="message-container-text">
+            {props.messageText}
+        </div>
     </div>
   );
 }

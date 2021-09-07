@@ -35,20 +35,11 @@ var io = require('socket.io')(http, {
 
 // Event handling
 io.on('connection', (client) => {
-  console.log(`${client.id} connected`);
   client.on('subscribeToTx', (interval) => {
     setInterval(() => {
       client.emit('tx', new Date());
     }, interval);
   });
-
-  client.on('message-added', (messages) => {
-    console.log(messages);
-  })
-
-  client.on('disconnect', () => {
-    console.log(`socket ${client.id} disconnected`);
-  })
 });
 
 // Define the basic route

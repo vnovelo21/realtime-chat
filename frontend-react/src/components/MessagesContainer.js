@@ -7,32 +7,19 @@ const MessagesContainer = (props) => {
 
   useEffect(() => {
     getMessages()
-    .then((response) => {
-      setMessages(response.data)
-    });
   }, []);
 
   useEffect(() => {
-    props.socket.on('connnection', () => {
-      console.log('connected to server');
-    })
-
-    props.socket.on('message-added', (newMessages) => {
-      console.log('message-added');
+    props.socket.on('subscribeToTx', (newMessages) => {
       console.log(newMessages);
       setMessages(newMessages)
     })
-
-    props.socket.on('disconnect', () => {
-      console.log('Socket disconnecting');
-    })
-
   }, []);
 
   return (
-    <div className="d-flex flex-column ">
+    <div className="messages-container">
        {messages && messages.map((message, index) => {
-        return <Message key={index} className='p-2' messageText={message.messageText}></Message>;
+        return <Message key={index} className='p-2' messageText={message.messageText} userId={message.userId}></Message>;
       })}
     </div>
   );
