@@ -10,10 +10,12 @@ form button { width: 9%; background: #c9c9c9; border: none; padding: 10px; }
 #messages li:nth-child(odd) { background: #eee; }
 #messages { margin-bottom: 40px }
 
+
+ /* NOTE: Usually I'd use Sass but this will do for this project*/
 .messages-container{
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     padding: 5px;
     margin: 10px;
     height: 90vh;

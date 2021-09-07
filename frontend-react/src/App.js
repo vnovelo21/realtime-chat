@@ -5,7 +5,6 @@ import io from 'socket.io-client';
 import Login from './components/login';
 import UserInputContainer from './components/UserInputContainer';
 import MessagesContainer from './components/MessagesContainer';
-import user from './reducers/user';
 
 const socket = io('http://localhost:18000', {
   withCredentials: true

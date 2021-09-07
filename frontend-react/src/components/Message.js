@@ -5,7 +5,6 @@ const Message= (props) => {
     const [leftOrRightMessage, setLeftOrRightMessage] = useState('left');
 
     useEffect(() => {
-        console.log(props.loginUserId)
         if(props.userId === props.user){
             setLeftOrRightMessage('right');
         }

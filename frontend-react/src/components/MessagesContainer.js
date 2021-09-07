@@ -6,16 +6,23 @@ const MessagesContainer = (props) => {
 
   const [messages, setMessages] = useState([]);
 
+  // On initial render
   useEffect(() => {
-    console.log(props.user);
-    getMessages()
-  }, []);
+    // Gets all the messages
+    getMessages();
 
-  useEffect(() => {
     props.socket.on('subscribeToTx', (newMessages) => {
       setMessages(newMessages)
     })
   }, []);
+
+  // After "messages" updates
+  useEffect(() => {
+    // Scroll to bottom when a new message comes in
+    let messagesContainer = document.querySelector('.messages-container');
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;;
+  }, [messages]);
+  
 
   return (
     <div className="messages-container">
